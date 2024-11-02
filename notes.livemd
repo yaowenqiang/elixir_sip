@@ -1,0 +1,239 @@
+<!-- livebook:{"persist_outputs":true} -->
+
+# Untitled notebook
+
+## Section
+
+```elixir
+:abc
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+:abc
+```
+
+### Functions
+
+* Defining Anonymous Functions
+* Calling Anonymous Functions
+* Functions as First Class Types
+
+```elixir
+print_name = fn
+  {:person, first_name, last_name } -> first_name <> " " <> last_name
+end
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+#Function<42.39164016/1 in :erl_eval.expr/6>
+```
+
+```elixir
+print_name.({:person, "Josh", "Adams"})
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+"Josh Adams"
+```
+
+```elixir
+calculate_bill = fn
+  [{:item, price1}, {:item, price2}] -> price1 + price2
+  {:item, price } -> price
+end
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+#Function<42.39164016/1 in :erl_eval.expr/6>
+```
+
+```elixir
+calculate_bill.([{:item, 20}, {:item, 10}])
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+30
+```
+
+```elixir
+calculate_bill.({:item, 20})
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+20
+```
+
+```elixir
+(fn -> "foo" end).()
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+"foo"
+```
+
+```elixir
+add = fn
+  num -> (fn num2 -> num + num2 end)
+end
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+#Function<42.39164016/1 in :erl_eval.expr/6>
+```
+
+```elixir
+add3 = add.(3)
+add3.(5)
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+8
+```
+
+```elixir
+great_person = fn
+  greater, {:person, first_name, last_name} -> greater.(first_name <> " " <> last_name)
+end
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+#Function<41.39164016/2 in :erl_eval.expr/6>
+```
+
+```elixir
+polite_greeter = fn
+  name -> "Hello, #{name}, nice to meet you"
+end
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+#Function<42.39164016/1 in :erl_eval.expr/6>
+```
+
+```elixir
+terse_greeter = fn
+  name -> "Hi, #{name}"
+end
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+#Function<42.39164016/1 in :erl_eval.expr/6>
+```
+
+```elixir
+person = {:person, "Josh", "Adams"}
+great_person.(polite_greeter, person)
+great_person.(terse_greeter, person)
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+"Hi, Josh Adams"
+```
+
+### Modules
+
+* Using mix to begin a new project
+* Defing a module
+* Compiling and using a module
+* defmodule return value
+* Documenting a module
+* Generating HTML Docs
+
+<!-- livebook:{"break_markdown":true} -->
+
+```bash
+mix new module_example
+```
+
+<!-- livebook:{"break_markdown":true} -->
+
+```bash
+iex lib/module_example.exs
+ModuleExample.hello
+
+```
+
+<!-- livebook:{"break_markdown":true} -->
+
+```bash
+
+elixirc lib/module_example.exs
+```
+
+<!-- livebook:{"break_markdown":true} -->
+
+```bash
+ies
+
+ModuleExample.hello
+```
+
+```elixir
+output = defmodule Foo do
+  def bar do
+    "whee"
+  end
+end
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+{:module, Foo, <<70, 79, 82, 49, 0, 0, 5, ...>>, {:bar, 0}}
+```
+
+```elixir
+output
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+{:module, Foo, <<70, 79, 82, 49, 0, 0, 5, ...>>, {:bar, 0}}
+```
+
+### Module Documents and get help
+
+iex> h(ModuleName)
+
+iex> h(ModuleName.function)
+
+<!-- livebook:{"break_markdown":true} -->
+
+add ex_doc to dependency 
+in mix.exs
+
+```
+  { :ex_doc, "~> 0.29", only: :dev, runtime: false}
+```
+
+then
+mix deps.get
+
+then mix docs
